@@ -1,9 +1,11 @@
 # sourcery skip: remove-dict-items
-
+import re
 contacts = {}
 
 while True:
-    print('\n Contact Book Management App')
+    print('---------------------------------------------------------------------------------------------------------------')
+    print('Contact Book Management App')
+    print('---------------------------------------------------------------------------------------------------------------')
     print('1. Add Contact')
     print('2. View Contact')
     print('3. Edit Contact')
@@ -21,11 +23,23 @@ while True:
         else:
             company = input('Enter your company: ')
             title = input('Enter your title: ')
+            
             phone = input('Enter phone number: ')
+            Pattern = re.compile("(0|91)?[6-9][0-9]{9}")
+            if Pattern.match(phone):
+                contacts[name] = {'phone': phone,'company':company,'title':title}
+            else:
+                print('Invalid phone number')
+                break
             email = input('Enter email: ')
-            contacts[name] = {'phone': phone,'company':company,'title':title, 'email': email}
-            print('\nContact added successfully.')
-
+            valid = re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email)
+            if valid:
+                contacts[name] = {'phone': phone,'company':company,'title':title, 'email': email}
+                print("Successfully added contact phone book")
+            else:
+                print('Invalid email address')
+                break
+            
     elif choice == '2':
         name = input('Enter contact name to views= ')
         if name in contacts:
@@ -44,10 +58,22 @@ while True:
         name = input('Enter contact name to edit: ')
         if name in contacts:
             phone = input('Enter new phone number: ')
+            Pattern = re.compile("(0|91)?[6-9][0-9]{9}")
+            if Pattern.match(phone):
+                contacts[name] = {'phone': phone,'company':company,'title':title}
+            else:
+                print('Invalid phone number')
+                break
             company = input('Enter new company: ')
             title = input('Enter new title: ')
             email = input('Enter new email: ')
-            contacts[name] = {'phone': phone,'company':company,'title':title, 'email': email}   
+            valid = re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email)
+            if valid:
+                contacts[name] = {'phone': phone,'company':company,'title':title, 'email': email}
+                print("Successfully updated contact")
+            else:
+                print('Invalid email address')
+                break 
         else:
             print(f'Contact name {name} does not exist')
 
@@ -74,13 +100,13 @@ while True:
         print(f'Total contacts in your book: {len(contacts)}')
 
     elif choice == '7':
-        print('--------------------------------------------------------------------------------------')
-        print('                                    Exiting the program...                     ')
+        print('---------------------------------------------------------------------------------------------------------------')
+        print('                                      Exiting the program...                     ')
         break
 
     else:
         print(f'Invalid option - {choice}')
     
 print("                       Thank you for using our contact book. Have a nice day!                                 ")
-print('--------------------------------------------------------------------------------------')
+print('---------------------------------------------------------------------------------------------------------------')
         
